@@ -1,5 +1,5 @@
 <template lang='pug'>
-    .header
+    .header( :style='content_bg')
         // 頂部
         .top-wrapper
             .back-wrapper
@@ -30,8 +30,8 @@
             p {{poiInfo.discounts2[0].info}}
             .detail(@click='showBulletin()') {{poiInfo.discounts2.length}}個活動
             span.icon-keyboard_arrow_right(@click='showBulletin()')
-        //header滿版背景圖片    
-        .bg-wrapper( :style='content_bg')
+        //header背景圖片    
+        // .bg-wrapper
         // 滿版詳情頁
         transition(name='detail')
             .bulletin-detail(v-show='isShow')
@@ -115,7 +115,7 @@ html,body
 
 .header
     // height: 160px
-    padding-top: 20px
+    padding: 20px 0px
     .top-wrapper
         width: 100%
         display: flex
@@ -230,10 +230,13 @@ html,body
             text-align: center
             margin-right: 12px
         .detail
+            border: 1px solid #eee
+            padding: 2px
             margin-right: 0 
             cursor: pointer     
     //滿版的公告欄        
     .bulletin-detail
+        z-index: 999
         +size(100%)
         position: absolute
         background-color: rgba(98,98,98,0.8)

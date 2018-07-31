@@ -7,39 +7,40 @@
 </template>
 
 <script>
-import Nav from './components/Nav/Nav';
-import Head from './components/Header/Header';
-
+import Nav from "./components/Nav/Nav";
+import Head from "./components/Header/Header";
 
 export default {
-  name: 'app',
+  name: "app",
   components: {
     Nav,
-    Head,
+    Head
   },
-  data(){//header組件的資料
+  data() {
+    //header組件的資料
     return {
-      poiInfo :{}
-    
-    }
+      poiInfo: {}
+    };
   },
-  mounted(){//發起異步請求獲取數據
-    var that = this;    
+  mounted() {
+    //發起異步請求獲取數據
+    var that = this;
 
-    this.axios.get('/api/goods')
-    .then((res)=>{
-      let dataSource = res.data;
-			// console.log(dataSource)
-			if(dataSource.code == 0){
-						that.poiInfo = dataSource.data.poi_info;
-					};
-				
-      
-    }).catch((err)=>{console.log(err+'失敗')});
+    this.axios
+      .get("/api/goods")
+      .then(res => {
+        let dataSource = res.data;
+        // console.log(dataSource)
+        if (dataSource.code == 0) {
+          that.poiInfo = dataSource.data.poi_info;
+        }
+      })
+      .catch(err => {
+        console.log(err + "失敗");
+      });
   }
 };
 </script>
 
 <style>
-
 </style>

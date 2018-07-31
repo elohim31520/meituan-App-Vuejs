@@ -24,8 +24,7 @@ export default {
         flex: 1
         text-align: center
         font-size: 13px
-        text-decoration: none
-        
+        text-decoration: none 
         color: inherit
     .active
         color: #ffbb22    
