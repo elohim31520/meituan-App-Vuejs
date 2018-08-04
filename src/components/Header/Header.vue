@@ -218,7 +218,7 @@ html,body
                 font-size: 14px
     .bulletin-wrapper
         height: 16px
-        padding: 0 
+        padding: 0 2rem 
         display: flex
         align-items: center
         color: #eee  
@@ -287,9 +287,9 @@ html,body
                     img
                         +size(16px)
                     p 
-                     font-size: 11px
-                     line-height: 16px 
-                     margin-left: 10px   
+                        font-size: 11px
+                        line-height: 16px 
+                        margin-left: 10px   
             .close-wrapper
                 +size(40px,45px)
                 box-sizing: border-box

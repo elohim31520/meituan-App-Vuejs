@@ -1,26 +1,26 @@
 <template lang="pug">
     .goods-wrapper
         <!--左邊菜單menu-->
-        .menu 
+        .menu(ref='menuScroll')
             ul
-                li
+                li(:class='{"click_active": currentIndex === 0 }', @click="scrollToEl(0)")
                     img(:src='container.tag_icon' v-if='container.tag_icon')
                     p {{container.tag_name}}
 
-                li(v-for='item in goods')
+                li(v-for='(item,i) in goods' ,:class='{"click_active": currentIndex === i+1 }', @click="scrollToEl(i+1)")
                     img(:src='item.icon' v-if='item.icon')
                     p {{item.name}}
                         
         <!--右邊商品列表-->
-        .goods
+        .goods(ref='goodsScroll')
             ul
                 <!--專場圖片-->
-                li.sell-pic
+                li.goodsInitHeight#sell-pic
                     div(v-for='item in container.operation_source_list')
                         img(:src='item.pic_url')
 
-                <!--商品分類-->
-                li(v-for='item in goods')
+                <!--商品分類 goods為大分類，裡面又有細項分類-->
+                li.goodsInitHeight(v-for='(item,i) in goods' )
                     h3.main {{item.name}}
                     ul
                         li(v-for='food in item.spus').category
@@ -48,7 +48,11 @@ export default {
     data(){
         return{
             container:{},
-            goods:[]
+            goods:[],
+            listHeight: [],
+            menuScroll: {},
+            goodsScroll: {},
+            scrollY: 0
         }
         
     },
@@ -62,13 +66,92 @@ export default {
                 vobj.container = dataSource.data.container_operation_source;
                 vobj.goods= dataSource.data.food_spu_tags
                 
+                //調用bscroll初始
+                // that.initscroll()
+                //但DOM還沒渲染會有問題
+                // 改寫到下方，忘記是接收的參數是promise，所以出了一個大BUG，改寫再arrow func 裡就正常了
             };
         
+        }).then(()=>{
+            vobj.$nextTick(()=>{
+                    // DOM已更新
+                    vobj.initScroll()
+                    vobj.calcHeight()
+                })
         }).catch((err)=>{console.log(err+'失敗')});
     },
+    computed:{
+        currentIndex(){
+            for(let i=0;i<this.listHeight.length;i++){
+                let heightA=this.listHeight[i]
+                let heightB= this.listHeight[i+1]
+                let Y = Math.abs(this.scrollY)
+                
+                if((Y>=heightA && Y<heightB)  || !heightB ){
+                    return i
+                }
+                
+                
+            }
+        }    
+    },
     methods:{
+        //回傳圖片url，computed無法傳參
         bg_gen(imgName){
             return `background-image: url('${imgName}')`
+        },
+        //設置滾動
+        initScroll(){ 
+            this.menuScroll = new bscroll(this.$refs.menuScroll,{
+                                scrollY: true,
+                                click: true,
+                                bounce: {
+                                    top: true,
+                                    bottom: true
+                                },
+                                click: true
+                            })
+            this.goodsScroll = new bscroll(this.$refs.goodsScroll,{
+                                    scrollY: true,
+                                    click: true,
+                                    bounce: {
+                                        top: true,
+                                        bottom: true
+                                    },
+                                    probeType: 3,
+                                    click: true
+                                })
+
+            this.goodsScroll.on('scroll',(pos)=>{
+                // console.log(pos.y)
+                this.scrollY = pos.y
+                
+            })  
+        },
+        // 計算每個商品列表累加高度
+        calcHeight(){
+            //通過$ref獲取特定元素，並轉成類陣列
+            let foodlist =this.$refs.goodsScroll.getElementsByClassName('goodsInitHeight')
+            // console.log(foodlist)
+            // console.log(foodlist.length)
+            // let foodArr = Array.from( foodlist)
+            // console.log(foodArr)
+            let height=0
+            this.listHeight.push(height)
+            for(let i=0; i<foodlist.length; i++){
+                let item = foodlist[i]
+                height+= item.clientHeight
+                // console.log(height)
+                this.listHeight.push(height)
+            }
+
+        },
+        scrollToEl(i){
+            let foodlist =this.$refs.goodsScroll.getElementsByClassName('goodsInitHeight')
+            // console.log(i)
+            // 根據點擊，滾動到對應商品列表
+            let el = foodlist[i]
+            this.goodsScroll.scrollToElement(el,300)
         }
     }
 };
@@ -102,6 +185,10 @@ export default {
             margin: 0
             border-bottom: 1px solid #e4e4e4
             padding: 16px 23px 15px 10px
+            &.click_active
+                background-color: #fff
+                font-weight: bold
+                margin-top: -1px
             img
                 +size(15px)
             p 
@@ -120,7 +207,7 @@ export default {
         li
             list-style: none
             padding: 11px
-            &.sell-pic
+            &#sell-pic
                 margin-bottom: 11px
                 border-bottom: 1px solid #e4e4e4
                 
@@ -144,6 +231,7 @@ export default {
                 padding: 0
                 margin-bottom: 1.5rem
                 align-items: center
+                border-top: 1px solid #e4e4e4
                 .food-pic
                     flex: 0 0 65px
                     background-position: center center
@@ -156,6 +244,11 @@ export default {
                         color: #333
                         font-size: 16px
                         line-height: 21px
+                    p
+                        -webkit-line-clamp: 1
+                        display: -webkit-box
+                        -webkit-box-orient: vertical
+                        overflow: hidden
                     .extra
                         display: flex
                         font-size: 10px
