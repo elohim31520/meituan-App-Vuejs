@@ -14,7 +14,7 @@
         <!--購物車清單頁面-->
         transition(name='showUp')
             .shoppingCart_list(v-show='isShow')
-                .list_mist(@click='isShow == false')
+                .list_mist(@click='closeShowing')
                 .list_top {{poiInfo.discounts2[0].info}}
                 .list_head
                     .pocket 1號清單
@@ -73,7 +73,11 @@ export default {
     },
     methods:{
         showList(){
-            this.isShow = !this.isShow
+                if( this.totalCount !== 0){
+                    this.isShow = !this.isShow 
+                }
+                
+
             if(this.isShow == true){
                 this.$nextTick(()=>{
                     if(!this.listScroll){
@@ -90,6 +94,9 @@ export default {
             this.selectedFood.forEach((food)=>{
                 food.count=0
             })
+        },
+        closeShowing(){
+            this.isShow = false
         }
     }
 }
@@ -98,12 +105,13 @@ export default {
 <style  lang='sass'>
 $color_red: #ed3131
 $color_yellow: #ffd161
+$color_grey: #646158
 
 @mixin size($w,$h:$w)
     width: $w
     height: $h
 *
-    font-family: "微軟正黑體"
+    font-family: sans-serif, "微軟正黑體"
 
 .shopping-cart
     +size(100%,51px)
@@ -201,6 +209,9 @@ $color_yellow: #ffd161
         transform: translateY(-100%)
         z-index: 97
 
+        &.noShow
+            display: none
+
         .list_mist      
             background-color: rgba(7,17,27,0.6)   
             +size(100%,720px)
@@ -209,7 +220,7 @@ $color_yellow: #ffd161
             +size(100%,30px)
             background-color: #f3e6c6
             font-size: 10px
-            color: #646158
+            color: $color_grey
             text-align: center
             padding-top: 10px
 
@@ -218,7 +229,7 @@ $color_yellow: #ffd161
             background-color: #f4f4f4
             display: flex
             justify-content: space-between
-
+            color: $color_grey
             .pocket
                 flex: 2
                 border-left: 4px solid $color_yellow
@@ -248,10 +259,10 @@ $color_yellow: #ffd161
                     align-items: center
                     position: relative
                     border-bottom: 1px solid #f4f4f4
+                    color: $color_grey
                     h3
                         margin-left: 20px
                         font-size: 1rem
-                        color: #646158
                         flex: 0 0 35%
                     .price 
                         position: absolute
