@@ -3,6 +3,7 @@
         <!--左邊菜單menu-->
         .menu(ref='menuScroll')
             ul
+                <!--分類-->
                 li(:class='{"click_active": currentIndex === 0 }', @click="scrollToEl(0)")
                     img(:src='container.tag_icon' v-if='container.tag_icon')
                     p {{container.tag_name}}
@@ -10,6 +11,9 @@
                 li(v-for='(item,i) in goods' ,:class='{"click_active": currentIndex === i+1 }', @click="scrollToEl(i+1)")
                     img(:src='item.icon' v-if='item.icon')
                     p {{item.name}}
+                    
+                    <!--類別裡的紅色圈圈商品總數-->
+                    .block_total_num(v-show='calcTotal(item.spus)') {{calcTotal(item.spus)}}
                         
         <!--右邊商品列表-->
         .goods(ref='goodsScroll')
@@ -34,15 +38,24 @@
                                     .saled {{food.month_saled_content}}
                                     .praise {{food.praise_content}}
                                 img(:src='food.product_label_picture' v-if='food.product_label_picture')
-                                div
+                                div.tip
                                     .text ¥{{food.min_price}} / 
-                                    .unit {{food.unit}} 
+                                    .unit {{food.unit}}
+
+                            <!--商品加減數量的組件-->
+                            CartControl(:food='food')
+        <!--購物車組件-->
+        ShoppingCart(:shipping_fee_tip="poiInfo.shipping_fee_tip" , :min_price_tip="poiInfo.min_price_tip", :selectedFood='selectfood')
+
+
 
 
 </template>
 
 <script>
 import bscroll from 'better-scroll'
+import ShoppingCart from "../ShoppingCart/ShoppingCart"
+import CartControl from "../CartControl/CartControl";
 
 export default {
     data(){
@@ -52,9 +65,14 @@ export default {
             listHeight: [],
             menuScroll: {},
             goodsScroll: {},
-            scrollY: 0
+            scrollY: 0,
+            poiInfo:{}
         }
         
+    },
+    components:{
+        ShoppingCart,
+        CartControl
     },
     mounted(){//發起異步請求獲取數據
         var vobj = this;    
@@ -65,7 +83,7 @@ export default {
             if(res.status == 200){
                 vobj.container = dataSource.data.container_operation_source;
                 vobj.goods= dataSource.data.food_spu_tags
-                
+                vobj.poiInfo= dataSource.data.poi_info
                 //調用bscroll初始
                 // that.initscroll()
                 //但DOM還沒渲染會有問題
@@ -81,6 +99,7 @@ export default {
         }).catch((err)=>{console.log(err+'失敗')});
     },
     computed:{
+        // 計算區塊對應區間高度的index，並比對v-for的index，來跳轉至商品位置
         currentIndex(){
             for(let i=0;i<this.listHeight.length;i++){
                 let heightA=this.listHeight[i]
@@ -93,7 +112,19 @@ export default {
                 
                 
             }
-        }    
+        },
+        // 計算被選的商品總數，並傳遞到購物車組件(子組件)
+        selectfood(){
+            let foods=[]
+            this.goods.forEach((item)=>{
+                item.spus.forEach((food)=>{
+                    if(food.count>0){
+                        foods.push(food)
+                    }
+                })
+            })
+            return foods
+        }   
     },
     methods:{
         //回傳圖片url，computed無法傳參
@@ -152,7 +183,17 @@ export default {
             // 根據點擊，滾動到對應商品列表
             let el = foodlist[i]
             this.goodsScroll.scrollToElement(el,300)
-        }
+        },
+        calcTotal(foodObj){
+            let total= 0
+
+            foodObj.forEach((food)=>{
+                if(food.count){
+                    total += food.count
+                }                
+            })
+            return total
+        } 
     }
 };
 </script>
@@ -185,6 +226,7 @@ export default {
             margin: 0
             border-bottom: 1px solid #e4e4e4
             padding: 16px 23px 15px 10px
+            position: relative
             &.click_active
                 background-color: #fff
                 font-weight: bold
@@ -199,6 +241,20 @@ export default {
                 display: -webkit-box
                 -webkit-box-orient: vertical
                 overflow: hidden
+            // 紅色圈圈-商品總數
+            .block_total_num
+                width: 16px
+                height: 16px
+                background-color: #ed3131
+                position: absolute
+                top: 5px
+                right: 5px
+                border-radius: 50%
+                color: #eee
+                text-align: center
+                font-size: 5px
+                
+
     .goods
         flex: 1
         ul
@@ -207,6 +263,7 @@ export default {
         li
             list-style: none
             padding: 11px
+            position: relative
             &#sell-pic
                 margin-bottom: 11px
                 border-bottom: 1px solid #e4e4e4
@@ -259,13 +316,16 @@ export default {
                     img
                         width: 5rem
                         margin-bottom: 6px
-                    div
+                    .tip
+                        width: 50%
+                        margin: 0
                         display: flex
                         align-items: center
                         .text
                             color: #fb4e44
                             line-height: 14px
                             font-size: 1.2rem
+                    
 
             
 </style>

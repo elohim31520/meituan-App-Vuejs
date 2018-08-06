@@ -125,8 +125,7 @@ html,body
             text-align: center
             line-height: 31px           
             .icon-arrow_lift
-                color: #fff
-                               
+                color: #fff  
         .serch-wrapper
             width: 100%
             height: 31px

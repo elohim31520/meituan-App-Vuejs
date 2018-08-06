@@ -42,5 +42,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang='sass'>
+*
+  font-family: "微軟正黑體"
 </style>
