@@ -26,7 +26,7 @@
                             h3 {{item.name}}
                             .price 
                                 p  $ {{item.min_price}}
-                CartControl
+                            CartControl(:item='food')
                 .list_bottom
 
 </template>
@@ -84,6 +84,8 @@ export default {
                         this.listScroll = new bscroll(this.$refs.listContent,{
                             click: true
                         })
+                    }else{
+                        this.listScroll.refresh()
                     }
                 })
             }
@@ -234,7 +236,7 @@ $color_grey: #646158
                 flex: 2
                 border-left: 4px solid $color_yellow
                 padding-top: 5px
-                padding-left: 5px
+                padding-left: 5pxcls
 
             .clear_all
                 flex: 1
