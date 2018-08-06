@@ -45,7 +45,7 @@
                             <!--商品加減數量的組件-->
                             CartControl(:food='food')
         <!--購物車組件-->
-        ShoppingCart(:shipping_fee_tip="poiInfo.shipping_fee_tip" , :min_price_tip="poiInfo.min_price_tip", :selectedFood='selectfood')
+        ShoppingCart(:poiInfo="poiInfo" , :selectedFood='selectfood')
 
 
 
@@ -55,7 +55,7 @@
 <script>
 import bscroll from 'better-scroll'
 import ShoppingCart from "../ShoppingCart/ShoppingCart"
-import CartControl from "../CartControl/CartControl";
+import CartControl from "../CartControl/CartControl"
 
 export default {
     data(){

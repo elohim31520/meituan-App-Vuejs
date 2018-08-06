@@ -235,7 +235,7 @@ html,body
             cursor: pointer     
     //滿版的公告欄        
     .bulletin-detail
-        z-index: 999
+        z-index: 99
         +size(100%)
         position: absolute
         background-color: rgba(98,98,98,0.8)

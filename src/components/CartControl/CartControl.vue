@@ -2,7 +2,7 @@
     .cartControl
         transition(name='scrollToFade')
             .cart-decrease.icon-remove_circle_outline(@click='decreaseCount', v-show='food.count')
-        .cart-count {{food.count}}
+        .cart-count(v-show='food.count') {{food.count}}
         .cart-add.icon-add_circle(@click='addCount')
 </template>
 
@@ -60,6 +60,6 @@ $color_yellow: #ffd161
     transition: all 0.5s
 
 .scrollToFade-enter, .scrollToFade-leave-to
-    transform: translateX(52px) rotate(180deg)
+    transform: translateX(100%) rotate(180deg)
 
 </style>
