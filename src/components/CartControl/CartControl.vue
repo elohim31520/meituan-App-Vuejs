@@ -12,7 +12,8 @@ import Vue from 'vue'
 export default {
     props:{
         food:{
-            type: Object
+            type: Object,
+            default: ''
 
         }
     },
@@ -38,9 +39,6 @@ $color_yellow: #ffd161
     display: flex
     justify-content: space-between
     align-items: center
-    position: absolute
-    bottom: -5px 
-    right: -5px  
     .cart-decrease, .cart-count, .cart-add
         width: 26px
         height: 26px

@@ -39,11 +39,12 @@
                                     .praise {{food.praise_content}}
                                 img(:src='food.product_label_picture' v-if='food.product_label_picture')
                                 div.tip
-                                    .text ¥{{food.min_price}} / 
+                                    .text ¥{{food.min_price}} /                            
                                     .unit {{food.unit}}
-
+                            
                             <!--商品加減數量的組件-->
-                            CartControl(:food='food')
+                            .cartControl
+                                CartControl(:food='food')
         <!--購物車組件-->
         ShoppingCart(:poiInfo="poiInfo" , :selectedFood='selectfood')
 
@@ -325,7 +326,10 @@ export default {
                             color: #fb4e44
                             line-height: 14px
                             font-size: 1.2rem
-                    
+                .cartControl
+                    position: absolute
+                    bottom: -5px 
+                    right: -5px  
 
             
 </style>

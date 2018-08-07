@@ -1,6 +1,6 @@
 <template lang='pug'>
     .shopping-cart
-        <!--highlight class 為有商品選擇時的樣式改變-->
+        <!--highlight class 為有商品選擇時的樣式改變--> 
         .content-left(:class='{"highlight": totalCount}')
             .logo-wrapper(@click='showList')
                 .icon-shopping_cart
@@ -26,7 +26,8 @@
                             h3 {{item.name}}
                             .price 
                                 p  $ {{item.min_price}}
-                            CartControl(:item='food')
+                            .cartControl
+                                CartControl(:food='item')
                 .list_bottom
 
 </template>
@@ -262,25 +263,30 @@ $color_grey: #646158
                     position: relative
                     border-bottom: 1px solid #f4f4f4
                     color: $color_grey
+                    justify-content: space-between 
                     h3
                         margin-left: 20px
                         font-size: 1rem
                         flex: 0 0 35%
                     .price 
-                        position: absolute
-                        left: 40%
+                        // position: absolute
+                        // left: 40%
                         display: flex
                         align-items: center
                         margin-left: 10%
                         p
                             margin: 0
+                            padding-left: 10px
                             
                         &:before
                             content: ''
                             display: block
                             +size(2px, 20px)
                             background-color:  $color_yellow
+
+                        .cartControl
                             
+
 .showUp-enter-active, .showUp-leave-active
     transition: all 0.5s
 .showUp-enter, .showUp-leave-to
