@@ -1,21 +1,21 @@
 <template lang='pug'>
     .header( :style='content_bg')
-        // 頂部
+        //- 頂部
         .top-wrapper
             .back-wrapper
                 span.icon-arrow_lift
-            //*搜尋欄
+            //- 搜尋欄
             .serch-wrapper
                 .serch-icon
                 input(type='text',placeholder="搜索店內商品") 
-            //更多按鍵ooo    
+            //- 更多按鍵ooo    
             .more-wrapper 
                 a.spelling-bt(href='#') 拼單
                 .more-bt
                     i.s-radius
                     i.s-radius
                     i.s-radius
-        //麥當勞圖標 收藏欄            
+        //- 麥當勞圖標 收藏欄            
         .content-wrapper
             .icon( :style='head_bg')
             .name
@@ -24,15 +24,15 @@
                 img(src='./star.png')
                 h4 收藏
 
-        //公告欄        
+        //- 公告欄        
         .bulletin-wrapper
             img(v-if='poiInfo.discounts2[0].icon_url' ,:src='poiInfo.discounts2[0].icon_url')
             p {{poiInfo.discounts2[0].info}}
             .detail(@click='showBulletin()') {{poiInfo.discounts2.length}}個活動
             span.icon-keyboard_arrow_right(@click='showBulletin()')
-        //header背景圖片    
-        // .bg-wrapper
-        // 滿版詳情頁
+        //- header背景圖片    
+        //-  .bg-wrapper
+        //-  滿版詳情頁
         transition(name='detail')
             .bulletin-detail(v-show='isShow')
                 .detail-wrapper 

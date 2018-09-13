@@ -1,9 +1,10 @@
 <template lang='pug'>
     .cartControl
         transition(name='scrollToFade')
-            .cart-decrease.icon-remove_circle_outline(@click='decreaseCount', v-show='food.count')
+            //- @click.stop.prevent 防止事件冒泡
+            .cart-decrease.icon-remove_circle_outline(@click.stop.prevent='decreaseCount', v-if='food.count')
         .cart-count(v-show='food.count') {{food.count}}
-        .cart-add.icon-add_circle(@click='addCount')
+        .cart-add.icon-add_circle(@click.stop.prevent='addCount')
 </template>
 
 <script>

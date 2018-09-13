@@ -1,9 +1,9 @@
 <template lang="pug">
     .goods-wrapper
-        <!--左邊菜單menu-->
+        //- 左邊菜單menu
         .menu(ref='menuScroll')
             ul
-                <!--分類-->
+                //- 分類
                 li(:class='{"click_active": currentIndex === 0 }', @click="scrollToEl(0)")
                     img(:src='container.tag_icon' v-if='container.tag_icon')
                     p {{container.tag_name}}
@@ -12,25 +12,26 @@
                     img(:src='item.icon' v-if='item.icon')
                     p {{item.name}}
                     
-                    <!--類別裡的紅色圈圈商品總數-->
+                    //- 類別裡的紅色圈圈商品總數
                     .block_total_num(v-show='calcTotal(item.spus)') {{calcTotal(item.spus)}}
                         
-        <!--右邊商品列表-->
+        //- 右邊商品列表
         .goods(ref='goodsScroll')
             ul
-                <!--專場圖片-->
+                //- 專場圖片
                 li.goodsInitHeight#sell-pic
                     div(v-for='item in container.operation_source_list')
                         img(:src='item.pic_url')
 
-                <!--商品分類 goods為大分類，裡面又有細項分類-->
+                //- 商品分類 goods為大分類，裡面又有細項分類
                 li.goodsInitHeight(v-for='(item,i) in goods' )
                     h3.main {{item.name}}
                     ul
-                        li(v-for='food in item.spus').category
-                            <!--左商品圖片-->
+                        //- 商品細項
+                        li(v-for='food in item.spus',@click='showDetail(food)').category
+                            //- 左商品圖片
                             .food-pic(:style='bg_gen(food.picture)')
-                            <!--右商品資訊-->
+                            //- 右商品資訊
                             .food-content
                                 h3 {{food.name}}
                                 p(v-if='food.description') {{food.description}}
@@ -42,11 +43,13 @@
                                     .text ¥{{food.min_price}} /                            
                                     .unit {{food.unit}}
                             
-                            <!--商品加減數量的組件-->
+                            //- 商品加減數量的組件
                             .cartControl
-                                CartControl(:food='food')
-        <!--購物車組件-->
+                                CartControl(:food='food')                      
+        //- 購物車組件
         ShoppingCart(:poiInfo="poiInfo" , :selectedFood='selectfood')
+        //- food 詳情頁
+        Food(:food='selectedfood', ref='foodView')  
 
 
 
@@ -57,6 +60,7 @@
 import bscroll from 'better-scroll'
 import ShoppingCart from "../ShoppingCart/ShoppingCart"
 import CartControl from "../CartControl/CartControl"
+import Food from "../Food/Food"
 
 export default {
     data(){
@@ -67,13 +71,15 @@ export default {
             menuScroll: {},
             goodsScroll: {},
             scrollY: 0,
-            poiInfo:{}
+            poiInfo:{},
+            selectedfood: {}
         }
         
     },
     components:{
         ShoppingCart,
-        CartControl
+        CartControl,
+        Food
     },
     mounted(){//發起異步請求獲取數據
         var vobj = this;    
@@ -194,7 +200,13 @@ export default {
                 }                
             })
             return total
-        } 
+        },
+        showDetail(foodData) {
+            // 傳值給子組件
+            this.selectedfood = foodData
+            // 調用food子組件方法
+            this.$refs.foodView.showView()
+        }
     }
 };
 </script>

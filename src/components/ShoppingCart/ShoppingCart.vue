@@ -1,6 +1,6 @@
 <template lang='pug'>
     .shopping-cart
-        <!--highlight class 為有商品選擇時的樣式改變--> 
+        //- highlight class 為有商品選擇時的樣式改變
         .content-left(:class='{"highlight": totalCount}')
             .logo-wrapper(@click='showList')
                 .icon-shopping_cart
@@ -11,7 +11,7 @@
         .content-right-btn(:class='{"highlight": totalCount}')
             p {{ totalCount? '去結帳' : poiInfo.min_price_tip }}
 
-        <!--購物車清單頁面-->
+        //- 購物車清單頁面
         transition(name='showUp')
             .shoppingCart_list(v-show='isShow')
                 .list_mist(@click='closeShowing')
@@ -129,7 +129,8 @@ $color_grey: #646158
         align-items: center
         flex: 1
         transition: 0.5s
-        z-index: 98
+        z-index: 200
+
         // 購物車logo
         .logo-wrapper
             +size(51px,100%)
@@ -139,11 +140,13 @@ $color_grey: #646158
             left: 10px
             top: -14px
             position: relative
+
             .icon-shopping_cart
                 font-size: 2rem
                 text-align: center
                 transform: translateY(calc(50% - 0.5rem))
                 color: #fff
+
 
             //紅色小圈圈-商品總數
             .total_num
@@ -160,8 +163,10 @@ $color_grey: #646158
         // 有商品選擇時的樣式
         &.highlight
             background-color: #222
+
             .logo-wrapper
                 background-color: $color_yellow
+
             .fee_wrapper
                 h3
                     color: #eee
@@ -170,6 +175,7 @@ $color_grey: #646158
                     color: #eee
                     font-size: 12px
                     margin: 0
+
             .icon-shopping_cart
                 color: #222
             p
@@ -191,7 +197,7 @@ $color_grey: #646158
         align-items: center
         justify-content: center
         transition: 0.5s
-        z-index: 98
+        z-index: 200
         p
             font-size: 18px
             color: #bab9b9      
@@ -210,7 +216,7 @@ $color_grey: #646158
         left: 0
         width: 100%
         transform: translateY(-100%)
-        z-index: 97
+        z-index: 100
 
         &.noShow
             display: none
@@ -283,12 +289,11 @@ $color_grey: #646158
                             display: block
                             +size(2px, 20px)
                             background-color:  $color_yellow
-
-                        .cartControl
                             
 
 .showUp-enter-active, .showUp-leave-active
     transition: all 0.5s
+
 .showUp-enter, .showUp-leave-to
     opacity: 0
 
