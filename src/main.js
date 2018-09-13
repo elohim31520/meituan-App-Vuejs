@@ -5,9 +5,10 @@ import App from './App';
 import router from './router';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
+import SplitLine from './components/SplitLine' 
 
 Vue.use(VueAxios, axios);
-
+Vue.component('SplitLine',SplitLine)
 
 // import VueRouter from 'vue-router';
 
