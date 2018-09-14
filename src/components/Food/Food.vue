@@ -30,11 +30,12 @@
                     span {{food.rating.like_ratio}}
                     span {{food.rating.snd_title}}
                 //- 評論ul
-                ul(v-if='food.rating.comment_list')
+                ul(v-if='food.rating')
                     li(v-for='(comment,index) in food.rating.comment_list', :key='index')
                         .comment-img-wrapper
                             //- 大頭貼
-                            img(:src='comment.user_icon')
+                            img(:src='comment.user_icon' ,v-if='comment.user_icon')
+                            img(src='./anonymity.png' ,v-if='!comment.user_icon')
                         //- 評論
                         .comment-wrapper
                             .comment-header
@@ -212,11 +213,14 @@ export default {
                 margin-right: 20px
 
     ul
+        padding: 0
+
         li
             display: flex
 
             .comment-img-wrapper
-                flex: 0 0 75px
+                flex: 0 0 60px
+                margin-left: 1rem
 
                 img
                     width: 50px
@@ -229,14 +233,21 @@ export default {
                 margin-right: 1.5rem
                 margin-bottom: 2rem
                 border-bottom: 2px solid #f4f4f4
+                padding: 1rem
 
                 .comment-header
                     display: flex
 
                     .comment-title
                         margin-right: auto
+                        font-weight: 700
 
-                    
+                    .comment-time
+                        color: #999999
+
+                .comment-body
+                    line-height: 1.5rem
+                    color: #444
 
 .food_detail-enter-active, .food_detail-leave-active
     transition: 1s

@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Head :poiInfo='poiInfo'></Head>
-    <Nav></Nav>
+    <Nav :commentNum='commentNum'></Nav>
     <router-view></router-view>
   </div>
 </template>
@@ -19,7 +19,8 @@ export default {
   data() {
     //header組件的資料
     return {
-      poiInfo: {}
+      poiInfo: {},
+      commentNum: 0
     };
   },
   mounted() {
@@ -33,6 +34,20 @@ export default {
         // console.log(dataSource)
         if (dataSource.code == 0) {
           that.poiInfo = dataSource.data.poi_info;
+        }
+      })
+      .catch(err => {
+        console.log(err + "失敗");
+      });
+
+      // 獲取rating個數數據
+    this.axios
+      .get("/api/ratings")
+      .then(res => {
+        let dataSource = res.data;
+        // console.log(dataSource)
+        if (dataSource.code == 0) {
+          that.commentNum = dataSource.data.comment_num
         }
       })
       .catch(err => {

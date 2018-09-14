@@ -45,8 +45,8 @@ export default {
     display: flex
     align-items: center
 .starItem   
-    width: 10px
-    height: 10px
+    width: 15px
+    height: 15px
     margin-right: 3px
     background-repeat: no-repeat
     background-size: 10px 10px
