@@ -1,6 +1,9 @@
 # sell
 
-> 美團app
+> 仿美團app
+
+基於vue.js vueRouter 建構一個SPA web
+
 
 ## Build Setup
 
@@ -19,3 +22,5 @@ npm run build --report
 ```
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+ 
