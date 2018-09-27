@@ -266,6 +266,7 @@ export default {
                 color: #eee
                 text-align: center
                 font-size: 5px
+                line-height: 1rem
                 
 
     .goods

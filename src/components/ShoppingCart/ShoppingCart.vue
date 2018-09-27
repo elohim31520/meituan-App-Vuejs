@@ -122,6 +122,7 @@ $color_grey: #646158
     position: fixed
     bottom: 0
     display: flex
+    z-index: 200
 
     // 左邊區塊
     .content-left
@@ -129,7 +130,7 @@ $color_grey: #646158
         align-items: center
         flex: 1
         transition: 0.5s
-        z-index: 200
+        z-index: 210
 
         // 購物車logo
         .logo-wrapper
@@ -159,6 +160,7 @@ $color_grey: #646158
                 color: #eee
                 font-size: 5px
                 text-align: center
+                line-height: 1rem
 
         // 有商品選擇時的樣式
         &.highlight
@@ -197,7 +199,7 @@ $color_grey: #646158
         align-items: center
         justify-content: center
         transition: 0.5s
-        z-index: 200
+        // z-index: 200
         p
             font-size: 18px
             color: #bab9b9      
@@ -216,7 +218,7 @@ $color_grey: #646158
         left: 0
         width: 100%
         transform: translateY(-100%)
-        z-index: 100
+        // z-index: 100
 
         &.noShow
             display: none
